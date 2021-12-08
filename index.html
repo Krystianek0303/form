@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Form Books</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<script type="text/javascript" src=""></script>
+<form id="formularz" class="form">
+	<label>Tytuł książki <input type="text" id="title" required minlength="1"> </label>
+	<label>Autor książki <input type="text" id="author" required minlength="3"> </label>
+	<label>Priorytet przeczytania <input type="number" id="number" required min="1" max="5"> </label>
+	<label>Kategoria <select id="category"><option>Kategoria1</option><option>Kategoria2</option><option>Kategoria3</option></select></label>
+
+	<button type="submit" class="button">Wyślij</button>
+
+</form></br>
+
+<table id="tabela">
+	<tr>
+		<th>Tytuł Książki</th>
+		<th>Autor</th>
+		<th>Priorytet przeczytania</th>
+		<th>Kategoria</th>
+	</tr>
+
+</table>
+<script type="text/javascript">
+var addtolist = document.querySelector('#formularz');
+
+var inputTitle = document.querySelector("#title");
+var inputAuthor = document.querySelector("#author");
+var inputNumber = document.querySelector("#number");
+var inputCategory = document.querySelector("#category");
+
+var tab = document.querySelector("#tabela");
+
+
+addtolist.addEventListener('submit', function (event) {
+
+    // Don't submit the form
+    event.preventDefault();
+    // Ignore it if the wishlist item is empty
+    if (inputTitle.value < 1 && inputAuthor < 1 && inputNumber < 1 && inputCategory < 1) return;
+
+    // Add item to wishlist
+    tab.innerHTML += ('<tr><td>' + inputTitle.value + '</td><td>' + inputAuthor.value + '</td><td>' + inputNumber.value + '</td><td>' + inputCategory.value + '</td></tr>');
+
+    const book = {
+        title: inputTitle.value,
+        author: inputAuthor.value,
+        number: inputNumber.value,
+        category: inputCategory.value
+        }
+
+    // Clear input
+    inputTitle.value = '';
+    inputAuthor.value = '';
+    inputNumber.value = '';
+    inputCategory.value = '';
+
+    // Save the list to localStorage
+    localStorage.setItem('books', tab.innerHTML);
+}, false);
+
+// Check for saved wishlist items
+var saved = localStorage.getItem('books');
+if (saved) {
+	tab.innerHTML = saved;
+}
+</script>
+</body>
+</html>
